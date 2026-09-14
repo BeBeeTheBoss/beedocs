@@ -1,5 +1,5 @@
 <template>
-    <button class="button">
+    <button type="button" class="button">
         <span class="X"></span>
         <span class="Y"></span>
         <div class="close">Close</div>

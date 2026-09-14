@@ -107,3 +107,102 @@
     font-weight: 900;
     font-style: italic;
 }
+
+/* Shared glassmorphism treatment for every Vuetify modal. */
+.v-overlay--active .v-overlay__scrim {
+    background: #08000f !important;
+    opacity: .68 !important;
+    backdrop-filter: blur(7px);
+}
+
+.v-overlay__content > .v-card {
+    overflow: hidden !important;
+    padding-top: 8px !important;
+    color: #faf7ff !important;
+    background:
+        linear-gradient(145deg, rgba(57, 25, 78, .78), rgba(18, 7, 29, .72)) !important;
+    border: 1px solid rgba(221, 190, 255, .22) !important;
+    border-radius: 20px !important;
+    box-shadow:
+        0 28px 80px rgba(3, 0, 8, .62),
+        inset 0 1px 0 rgba(255, 255, 255, .09) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(135%);
+    backdrop-filter: blur(24px) saturate(135%);
+}
+
+.v-overlay__content > .v-card::before {
+    position: absolute;
+    top: -90px;
+    right: -80px;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: rgba(167, 139, 250, .12);
+    filter: blur(15px);
+    pointer-events: none;
+    content: "";
+}
+
+.v-overlay__content .v-card-title {
+    position: relative;
+    padding-top: 22px !important;
+    color: #fff !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    letter-spacing: -.025em !important;
+}
+
+.v-overlay__content .v-card-item,
+.v-overlay__content .v-card-text,
+.v-overlay__content .v-card-actions {
+    position: relative;
+}
+
+.v-overlay__content .v-field {
+    color: #fff !important;
+    background: rgba(8, 2, 15, .34) !important;
+    border-radius: 12px !important;
+}
+
+.v-overlay__content .v-field__outline {
+    color: rgba(221, 190, 255, .28) !important;
+}
+
+.v-overlay__content .v-field--focused .v-field__outline {
+    color: #a78bfa !important;
+}
+
+.v-overlay__content .v-label,
+.v-overlay__content input {
+    color: #eee7f5 !important;
+}
+
+.v-overlay__content .v-card-actions {
+    gap: 8px;
+    padding: 14px 20px 20px !important;
+}
+
+.v-overlay__content .v-btn {
+    min-height: 40px;
+    padding: 0 16px !important;
+    border-radius: 10px !important;
+    color: #d8cce1 !important;
+    font-weight: 700 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+}
+
+.v-overlay__content .v-card-actions .v-btn:last-child {
+    color: #fff !important;
+    background: linear-gradient(135deg, #a78bfa, #7c3aed) !important;
+    box-shadow: 0 8px 24px rgba(124, 58, 237, .3);
+}
+
+.v-overlay__content .v-card-actions .v-btn:first-child:hover {
+    background: rgba(255, 255, 255, .07) !important;
+}
+
+@media (max-width: 600px) {
+    .v-overlay__content { width: calc(100vw - 28px) !important; }
+    .v-overlay__content > .v-card { width: 100% !important; }
+}

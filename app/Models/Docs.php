@@ -23,4 +23,8 @@ class Docs extends Model
         return $this->hasMany(ErrorResponse::class , 'doc_id');
     }
 
+    public function api(){
+        return $this->belongsTo(Api::class, 'api_id');
+    }
+
 }

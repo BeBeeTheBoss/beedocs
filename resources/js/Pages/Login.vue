@@ -1,248 +1,67 @@
 <template>
-    <div class="container d-flex justify-content-center align-items-center min-vh-100">
-        <div class="col-4 shadow rounded rounded-4 p-5">
-            <div class="w-100 text-white">
-                <p class="title mb-5">Welcome from BeeDocs
-                </p>
-                <form class="form">
-                    <div class="input-group">
-                        <label  for="username" class="text-white">Email</label>
-                        <input v-model="form.email" type="text" name="username" id="username" placeholder="">
-                    </div>
-                    <div class="input-group">
-                        <label for="password" class="text-white">Password</label>
-                        <input v-model="form.password" type="password" name="password" id="password" placeholder="">
-                        <div class="forgot">
-                            <a rel="noopener noreferrer" href="#">Forgot Password ?</a>
-                        </div>
-                    </div>
-                    <button @click="submit" type="button" class="sign">Sign in</button>
-                </form>
-                <div class="social-message">
-                    <div class="line"></div>
-                    <p class="message">Login with social accounts</p>
-                    <div class="line"></div>
-                </div>
-                <div class="social-icons">
-                    <button aria-label="Log in with Google" class="icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="w-5 h-5 fill-current">
-                            <path
-                                d="M16.318 13.714v5.484h9.078c-0.37 2.354-2.745 6.901-9.078 6.901-5.458 0-9.917-4.521-9.917-10.099s4.458-10.099 9.917-10.099c3.109 0 5.193 1.318 6.38 2.464l4.339-4.182c-2.786-2.599-6.396-4.182-10.719-4.182-8.844 0-16 7.151-16 16s7.156 16 16 16c9.234 0 15.365-6.49 15.365-15.635 0-1.052-0.115-1.854-0.255-2.651z">
-                            </path>
-                        </svg>
-                    </button>
-                    <button aria-label="Log in with Twitter" class="icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="w-5 h-5 fill-current">
-                            <path
-                                d="M31.937 6.093c-1.177 0.516-2.437 0.871-3.765 1.032 1.355-0.813 2.391-2.099 2.885-3.631-1.271 0.74-2.677 1.276-4.172 1.579-1.192-1.276-2.896-2.079-4.787-2.079-3.625 0-6.563 2.937-6.563 6.557 0 0.521 0.063 1.021 0.172 1.495-5.453-0.255-10.287-2.875-13.52-6.833-0.568 0.964-0.891 2.084-0.891 3.303 0 2.281 1.161 4.281 2.916 5.457-1.073-0.031-2.083-0.328-2.968-0.817v0.079c0 3.181 2.26 5.833 5.26 6.437-0.547 0.145-1.131 0.229-1.724 0.229-0.421 0-0.823-0.041-1.224-0.115 0.844 2.604 3.26 4.5 6.14 4.557-2.239 1.755-5.077 2.801-8.135 2.801-0.521 0-1.041-0.025-1.563-0.088 2.917 1.86 6.36 2.948 10.079 2.948 12.067 0 18.661-9.995 18.661-18.651 0-0.276 0-0.557-0.021-0.839 1.287-0.917 2.401-2.079 3.281-3.396z">
-                            </path>
-                        </svg>
-                    </button>
-                    <button aria-label="Log in with GitHub" class="icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="w-5 h-5 fill-current">
-                            <path
-                                d="M16 0.396c-8.839 0-16 7.167-16 16 0 7.073 4.584 13.068 10.937 15.183 0.803 0.151 1.093-0.344 1.093-0.772 0-0.38-0.009-1.385-0.015-2.719-4.453 0.964-5.391-2.151-5.391-2.151-0.729-1.844-1.781-2.339-1.781-2.339-1.448-0.989 0.115-0.968 0.115-0.968 1.604 0.109 2.448 1.645 2.448 1.645 1.427 2.448 3.744 1.74 4.661 1.328 0.14-1.031 0.557-1.74 1.011-2.135-3.552-0.401-7.287-1.776-7.287-7.907 0-1.751 0.62-3.177 1.645-4.297-0.177-0.401-0.719-2.031 0.141-4.235 0 0 1.339-0.427 4.4 1.641 1.281-0.355 2.641-0.532 4-0.541 1.36 0.009 2.719 0.187 4 0.541 3.043-2.068 4.381-1.641 4.381-1.641 0.859 2.204 0.317 3.833 0.161 4.235 1.015 1.12 1.635 2.547 1.635 4.297 0 6.145-3.74 7.5-7.296 7.891 0.556 0.479 1.077 1.464 1.077 2.959 0 2.14-0.020 3.864-0.020 4.385 0 0.416 0.28 0.916 1.104 0.755 6.4-2.093 10.979-8.093 10.979-15.156 0-8.833-7.161-16-16-16z">
-                            </path>
-                        </svg>
-                    </button>
-                </div>
-                <p class="signup">Don't have an account?
-                    <!-- <a rel="noopener noreferrer" href="#" class="">Sign up</a> -->
-                    <Link :href="'/signup'">Sign up</Link>
-                </p>
-            </div>
+  <main class="auth-page">
+    <div class="auth-glow glow-one"></div><div class="auth-glow glow-two"></div>
+    <section class="auth-shell">
+      <div class="auth-intro">
+        <a href="/" class="brand"><span>B</span> BeeDocs</a>
+        <div class="intro-copy">
+          <span class="eyebrow">API documentation workspace</span>
+          <h1>Document APIs.<br><em>Share with clarity.</em></h1>
+          <p>Keep endpoints, payloads and responses beautifully organized in one focused workspace.</p>
         </div>
-    </div>
+        <div class="preview-card">
+          <div class="preview-top"><i></i><i></i><i></i><span>api/reference</span></div>
+          <div class="preview-endpoint"><b>GET</b><code>/v1/members</code></div>
+          <div class="preview-lines"><span></span><span></span><span></span></div>
+        </div>
+        <span class="copyright">© {{ new Date().getFullYear() }} BeeDocs</span>
+      </div>
 
+      <div class="auth-form-side">
+        <form class="auth-form" @submit.prevent="submit">
+          <div class="mobile-brand"><span>B</span> BeeDocs</div>
+          <span class="eyebrow">Welcome back</span>
+          <h2>Sign in to BeeDocs</h2>
+          <p class="form-lead">Continue to your API documentation workspace.</p>
+          <div v-if="errorMessage" class="form-error-alert"><span>!</span><p>{{ errorMessage }}</p></div>
+
+          <label class="field">
+            <span>Email address</span>
+            <input v-model="form.email" type="email" autocomplete="email" placeholder="you@example.com" />
+            <small v-if="form.errors.email">{{ form.errors.email }}</small>
+          </label>
+          <label class="field">
+            <span>Password</span>
+            <input v-model="form.password" type="password" autocomplete="current-password" placeholder="Enter your password" />
+            <small v-if="form.errors.password">{{ form.errors.password }}</small>
+          </label>
+
+          <button class="auth-submit" type="submit" :disabled="form.processing">
+            <span>{{ form.processing ? 'Signing in…' : 'Sign in' }}</span><span aria-hidden="true">→</span>
+          </button>
+          <p class="auth-switch">New to BeeDocs? <Link href="/signup">Create an account</Link></p>
+        </form>
+      </div>
+    </section>
+  </main>
 </template>
 
 <script setup>
-
-import { Link,useForm } from '@inertiajs/vue3';
-import { useToast } from "vue-toastification";
-
-const toast = useToast();
-
-const form = useForm({
-    email: '',
-    password: '',
-});
-
+import { computed, ref } from 'vue'
+import { Link, useForm } from '@inertiajs/vue3'
+import { useToast } from 'vue-toastification'
+const toast = useToast()
+const form = useForm({ email: '', password: '' })
+const localError = ref('')
+const errorMessage = computed(() => localError.value || form.errors.message || form.errors.email || form.errors.password || '')
 const submit = () => {
-
-    if(form.email == '' || form.password == ''){
-        toast.warning('All fields are required');
-        return;
-    }
-
-    form.post('/login', {
-        onSuccess: (response) => console.log(response),
-        onError: (error) => toast.error(error.message)
-    });
+  localError.value = ''
+  if (!form.email || !form.password) { localError.value = 'Email and password are required.'; return }
+  form.post('/login', { onError: errors => toast.error(errors.message || 'Please check your details') })
 }
-
 </script>
 
 <style scoped>
-.form-container {
-    width: 320px;
-    border-radius: 0.75rem;
-    background-color: rgba(17, 24, 39, 1);
-    padding: 2rem;
-    color: rgba(243, 244, 246, 1);
-}
-
-.title {
-    font-size: 23px;
-    font-weight: 600;
-    /* letter-spacing: -1px; */
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding-left: 30px;
-    color: #A78BFA;
-}
-
-.title::before {
-    width: 18px;
-    height: 18px;
-}
-
-.title::after {
-    width: 18px;
-    height: 18px;
-    animation: pulse 1s linear infinite;
-}
-
-.title::before,
-.title::after {
-    position: absolute;
-    content: "";
-    height: 16px;
-    width: 16px;
-    border-radius: 50%;
-    left: 0px;
-    background-color: #A78BFA;
-}
-
-.form {
-    margin-top: 1.5rem;
-}
-
-.input-group {
-    margin-top: 0.25rem;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-}
-
-.input-group label {
-    display: block;
-    color: rgba(156, 163, 175, 1);
-    margin-bottom: 4px;
-}
-
-.input-group input {
-    width: 100%;
-    border-radius: 0.375rem;
-    border: 1px solid rgba(55, 65, 81, 1);
-    outline: 0;
-    background-color: rgba(17, 24, 39, 1);
-    padding: 0.75rem 1rem;
-    color: rgba(243, 244, 246, 1);
-}
-
-.input-group input:focus {
-    border-color: rgba(167, 139, 250);
-}
-
-.forgot {
-    display: flex;
-    justify-content: flex-end;
-    font-size: 0.75rem;
-    line-height: 1rem;
-    color: rgba(156, 163, 175, 1);
-    margin: 8px 0 14px 0;
-}
-
-.forgot a,
-.signup a {
-    color: rgba(243, 244, 246, 1);
-    text-decoration: none;
-    font-size: 14px;
-}
-
-.forgot a:hover,
-.signup a:hover {
-    text-decoration: underline rgba(167, 139, 250, 1);
-}
-
-.sign {
-    display: block;
-    width: 100%;
-    background-color: rgba(167, 139, 250, 1);
-    padding: 0.75rem;
-    text-align: center;
-    color: rgba(17, 24, 39, 1);
-    border: none;
-    border-radius: 0.375rem;
-    font-weight: 600;
-}
-
-.social-message {
-    display: flex;
-    align-items: center;
-    padding-top: 1rem;
-}
-
-.line {
-    height: 1px;
-    flex: 1 1 0%;
-    background-color: rgba(55, 65, 81, 1);
-}
-
-.social-message .message {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    color: rgba(156, 163, 175, 1);
-}
-
-.social-icons {
-    display: flex;
-    justify-content: center;
-}
-
-.social-icons .icon {
-    border-radius: 0.125rem;
-    padding: 0.75rem;
-    border: none;
-    background-color: transparent;
-    margin-left: 8px;
-}
-
-.social-icons .icon svg {
-    height: 1.25rem;
-    width: 1.25rem;
-    fill: #fff;
-}
-
-.signup {
-    text-align: center;
-    font-size: 0.75rem;
-    line-height: 1rem;
-    color: rgba(156, 163, 175, 1);
-}
-
-@keyframes pulse {
-    from {
-        transform: scale(0.9);
-        opacity: 1;
-    }
-
-    to {
-        transform: scale(1.8);
-        opacity: 0;
-    }
-}
+.auth-page{position:relative;display:grid;min-height:100vh;place-items:center;overflow:hidden;padding:28px;background:#08030d}.auth-glow{position:absolute;border-radius:50%;filter:blur(10px);pointer-events:none}.glow-one{top:-240px;left:-180px;width:600px;height:600px;background:radial-gradient(circle,rgba(124,58,237,.22),transparent 68%)}.glow-two{right:-220px;bottom:-260px;width:650px;height:650px;background:radial-gradient(circle,rgba(88,28,135,.2),transparent 68%)}.auth-shell{position:relative;display:grid;width:min(1040px,100%);min-height:650px;grid-template-columns:1.05fr .95fr;overflow:hidden;border:1px solid rgba(215,188,255,.13);border-radius:26px;background:rgba(14,7,21,.78);box-shadow:0 35px 100px rgba(2,0,7,.5);backdrop-filter:blur(22px)}.auth-intro{position:relative;display:flex;overflow:hidden;flex-direction:column;padding:42px;background:radial-gradient(circle at 20% 0,rgba(139,92,246,.22),transparent 25rem),linear-gradient(145deg,rgba(46,18,65,.75),rgba(17,7,27,.7));border-right:1px solid rgba(215,188,255,.1)}.brand,.mobile-brand{display:flex;align-items:center;gap:10px;color:#fff;font-size:17px;font-weight:800;text-decoration:none}.brand>span,.mobile-brand>span{display:grid;width:34px;height:34px;place-items:center;border-radius:10px;background:linear-gradient(135deg,#a78bfa,#7c3aed);box-shadow:0 9px 25px rgba(124,58,237,.3);font-size:12px}.intro-copy{margin-top:72px}.eyebrow{display:block;color:#b794f4;font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}.intro-copy h1{margin:14px 0 16px;color:#fff;font-size:42px;font-weight:800;letter-spacing:-.055em;line-height:1.1}.intro-copy h1 em{color:#c4b5fd;font-style:normal}.intro-copy p{max-width:430px;color:#aa9bb8;font-size:13px;line-height:1.8}.preview-card{width:88%;margin-top:40px;overflow:hidden;border:1px solid rgba(215,188,255,.14);border-radius:15px;background:rgba(8,3,13,.56);box-shadow:0 22px 50px rgba(3,0,8,.25);transform:rotate(-1deg)}.preview-top{display:flex;align-items:center;gap:5px;padding:11px;border-bottom:1px solid rgba(215,188,255,.08)}.preview-top i{width:6px;height:6px;border-radius:50%;background:#6f5d7a}.preview-top i:first-child{background:#a78bfa}.preview-top span{margin-left:auto;color:#796b82;font:8px monospace}.preview-endpoint{display:flex;align-items:center;gap:10px;padding:17px 17px 8px}.preview-endpoint b{padding:4px 7px;border-radius:6px;background:rgba(52,211,153,.12);color:#6ee7b7;font:700 8px monospace}.preview-endpoint code{color:#cfc3d5;font-size:10px}.preview-lines{display:flex;flex-direction:column;gap:8px;padding:8px 17px 18px}.preview-lines span{width:70%;height:5px;border-radius:9px;background:rgba(196,181,253,.13)}.preview-lines span:nth-child(2){width:45%}.preview-lines span:nth-child(3){width:58%}.copyright{margin-top:auto;color:#6f6377;font-size:9px}.auth-form-side{display:grid;place-items:center;padding:46px}.auth-form{width:min(360px,100%)}.mobile-brand{display:none}.auth-form h2{margin:10px 0 6px;color:#fff;font-size:29px;font-weight:800;letter-spacing:-.045em}.form-lead{margin:0 0 30px;color:#97899f;font-size:12px}.field{display:flex;flex-direction:column;gap:8px;margin-bottom:17px}.field>span{color:#d6cbdc;font-size:11px;font-weight:700}.field input{height:50px;padding:0 14px;border:1px solid rgba(215,188,255,.14);border-radius:11px;outline:0;background:rgba(255,255,255,.025);color:#fff;font-size:13px}.field input::placeholder{color:#665a6e}.field input:focus{border-color:rgba(167,139,250,.65);box-shadow:0 0 0 4px rgba(139,92,246,.1)}.field small{color:#fb8da0;font-size:9px}.auth-submit{display:flex;width:100%;height:50px;align-items:center;justify-content:space-between;margin-top:7px;padding:0 16px;border:0;border-radius:11px;background:linear-gradient(135deg,#a78bfa,#7c3aed);box-shadow:0 12px 30px rgba(124,58,237,.26);color:#fff;font-size:12px;font-weight:800}.auth-submit:hover:not(:disabled){filter:brightness(1.08);transform:translateY(-1px)}.auth-submit:disabled{cursor:wait;opacity:.65}.auth-switch{margin:22px 0 0;color:#8f8297;font-size:11px;text-align:center}.auth-switch a{color:#c4b5fd;font-weight:750;text-decoration:none}.auth-switch a:hover{color:#e9d5ff}.auth-switch a{text-decoration:underline;text-underline-offset:3px}@media(max-width:800px){.auth-shell{max-width:480px;grid-template-columns:1fr}.auth-intro{display:none}.auth-form-side{padding:42px 30px}.mobile-brand{display:flex;margin-bottom:48px}}@media(max-width:480px){.auth-page{padding:0}.auth-shell{min-height:100vh;border:0;border-radius:0}.auth-form-side{padding:28px 22px}}
+.form-error-alert{display:flex;align-items:flex-start;gap:10px;margin:0 0 18px;padding:11px 12px;border:1px solid rgba(251,113,133,.2);border-radius:10px;background:rgba(251,113,133,.07);color:#fda4af}.form-error-alert>span{display:grid;width:19px;height:19px;flex:0 0 19px;place-items:center;border-radius:6px;background:rgba(251,113,133,.14);font-size:10px;font-weight:800}.form-error-alert p{margin:1px 0 0;font-size:10px;line-height:1.55}
 </style>

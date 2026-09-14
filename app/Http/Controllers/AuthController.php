@@ -39,7 +39,7 @@ class AuthController extends Controller
         ]);
 
         Auth::login($user);
-        session(['message' => 'Signup successful! Now you can create your api docs.']);
+        session()->flash('message', 'Signup successful! Now you can create your API docs.');
         return redirect()->route('projects.get');
     }
 
@@ -50,12 +50,20 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            session(['message' => 'Login successful!']);
-            return redirect('/home');
+        $user = $this->model->where('email', $request->email)->first();
+
+        if (!$user) {
+            return back()->withErrors(['email' => 'No account was found with this email.'])->onlyInput('email');
         }
 
-        return back()->withErrors(['message' => 'Invalid credentials. Please login again!']);
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->withErrors(['password' => 'The password you entered is incorrect.'])->onlyInput('email');
+        }
+
+        Auth::login($user);
+        $request->session()->regenerate();
+        session()->flash('message', 'Login successful!');
+        return redirect('/home');
     }
 
 }

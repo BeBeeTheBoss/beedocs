@@ -13,4 +13,12 @@ class Api extends Model
         'group_id',
         'name',
     ];
+
+    public function group(){
+        return $this->belongsTo(Group::class);
+    }
+
+    public function docs(){
+        return $this->hasOne(Docs::class, 'api_id');
+    }
 }

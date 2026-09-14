@@ -16,8 +16,8 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons';
-import { faPlus,faAngleDown,faCircleCheck,faEllipsisVertical,faTrashCan,faPenToSquare } from '@fortawesome/free-solid-svg-icons';
-library.add(faPlus,faAngleDown,faCircleCheck,faCircleQuestion,faEllipsisVertical,faTrashCan,faPenToSquare)
+import { faPlus,faAngleDown,faCircleCheck,faEllipsisVertical,faTrashCan,faPenToSquare,faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+library.add(faPlus,faAngleDown,faCircleCheck,faCircleQuestion,faEllipsisVertical,faTrashCan,faPenToSquare,faArrowLeft)
 
 // Vuetify
 import 'vuetify/styles'

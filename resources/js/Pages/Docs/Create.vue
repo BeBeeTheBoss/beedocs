@@ -3,9 +3,10 @@
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
 
         <div class="col-10 d-flex justify-content-center align-items-center">
-            <form class="form">
-                <div class="d-flex justify-content-start">
-                    <p class="title">Create new Api docs</p>
+            <form class="form" @submit.prevent="submit">
+                <Link href="/home" class="back-button"><span aria-hidden="true">←</span> Back</Link>
+                <div class="docs-form-header">
+                    <p class="title mb-0">Create new Api docs</p>
                 </div>
                 <!-- <p class="message">Signup now and create your docs free. </p> -->
                 <div class="d-flex align-items-center justify-content-end">
@@ -25,7 +26,7 @@
                     <span>Method</span>
                 </label>
                 <label class="col-10">
-                    <input v-model="form.endpoints" class="input" type="email" placeholder="" required="">
+                    <input v-model="form.endpoints" class="input" placeholder="" required="">
                     <span>End Points</span>
                 </label>
                 </div>
@@ -34,38 +35,31 @@
                     <span>Description</span>
                 </label>
 
-                <label>
-                    <textarea v-model="form.request" class="input" type="text" placeholder="" required=""></textarea>
-                    <span>Request</span>
-                </label>
-
-                <label>
-                    <textarea v-model="form.response" class="input" type="text" placeholder="" required=""></textarea>
-                    <span>Response</span>
-                </label>
+                <JsonEditor v-model="form.request" label="Request body" placeholder='' />
+                <JsonEditor v-model="form.response" label="Response body" placeholder='' />
                 <div v-for="error,index in errors" :key="error" class="d-flex">
                     <label class="col-3 pe-2">
-                        <input v-model="error.status_code" class="input" type="email" placeholder="" required="">
+                        <input v-model="error.status_code" class="input" placeholder="" required="">
                         <span>Status Code</span>
                 </label>
                 <label class="col-8">
-                    <input v-model="error.message" class="input" type="email" placeholder="" required="">
+                    <input v-model="error.message" class="input" placeholder="" required="">
                     <span>Message</span>
                 </label>
                 <CloseButton @click="removeError(index)"/>
                 </div>
                 <div class="d-flex">
                     <label class="col-3 pe-2">
-                        <input v-model="status_code" class="input" type="email" placeholder="" required="">
+                        <input v-model="status_code" class="input" placeholder="">
                         <span>Status Code</span>
                 </label>
                 <label class="col-7">
-                    <input v-model="message" class="input" type="email" placeholder="" required="">
+                    <input v-model="message" class="input" placeholder="">
                     <span>Message</span>
                 </label>
                 <AddButton @click="addError" class="col-2 ms-1"/>
                 </div>
-                <button type="button" @click="submit" class="submit mt-2 w-25">Create</button>
+                <button type="submit" class="submit mt-2 w-25">Create</button>
 
             </form>
         </div>
@@ -80,6 +74,7 @@ import { useToast } from "vue-toastification";
 import AddButton from '../Components/AddButton.vue';
 import Toggle from '../Components/Toggle.vue';
 import CloseButton from '../Components/CloseButton.vue';
+import JsonEditor from '../Components/JsonEditor.vue';
 import {ref} from 'vue';
 
 const toast = useToast();
@@ -131,6 +126,14 @@ const submit = () => {
         return;
     }
 
+    try {
+        JSON.parse(form.request);
+        JSON.parse(form.response);
+    } catch (error) {
+        toast.error('Request and response must contain valid JSON');
+        return;
+    }
+
     form.error_responses = errors.value;
 
     form.post('/docs/store',{
@@ -142,6 +145,7 @@ const submit = () => {
 </script>
 
 <style scoped>
+.docs-form-header{display:flex;align-items:center;gap:20px;margin-bottom:8px}.back-button{display:inline-flex;width:max-content;height:42px;align-items:center;justify-content:center;align-self:flex-start;gap:8px;flex:0 0 auto;margin-bottom:4px;padding:0 15px;border:1px solid rgba(215,188,255,.18);border-radius:10px;background:rgba(167,139,250,.08);color:#ddd0e7;text-decoration:none;font-size:13px;font-weight:700;line-height:1}.back-button span{display:inline-flex;width:14px;height:14px;align-items:center;justify-content:center;font-size:16px;line-height:14px;transform:translateY(-1px)}.back-button:hover{border-color:rgba(196,181,253,.38);background:rgba(167,139,250,.16);color:#fff;transform:translateX(-2px)}
 .form {
     display: flex;
     flex-direction: column;
@@ -215,13 +219,19 @@ const submit = () => {
 }
 
 .form label .input {
-    background-color: #111827;
+    background-color: #0d0b16;
     color: #fff;
     width: 100%;
     padding: 20px 05px 05px 10px;
     outline: 0;
-    border: 1px solid rgba(105, 105, 105, 0.397);
-    border-radius: 10px;
+    border: 1px solid rgba(215, 188, 255, 0.16);
+    border-radius: 13px;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.form label .input:focus {
+    border-color: rgba(167, 139, 250, .65);
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, .1);
 }
 
 .form label .input+span {

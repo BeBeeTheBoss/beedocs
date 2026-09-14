@@ -15,4 +15,8 @@ class Group extends Model
         return $this->hasMany(Api::class);
     }
 
+    public function project(){
+        return $this->belongsTo(Project::class);
+    }
+
 }

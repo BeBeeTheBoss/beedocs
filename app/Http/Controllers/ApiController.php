@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Api;
 use App\Models\Docs;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Group;
 
 class ApiController extends Controller
 {
@@ -15,20 +17,21 @@ class ApiController extends Controller
     }
 
     public function store(Request $request){
+        Group::whereHas('project', fn($query) => $query->where('user_id', Auth::id()))->findOrFail($request->group_id);
         $this->model->create([
             'group_id' => $request->group_id,
             'name' => $request->name,
         ]);
 
-        session(['message' => 'Api created successfully.']);
-        return redirect()->route('home');
+        session()->flash('message', 'API created successfully.');
+        return back();
     }
 
     public function destroy($apiId){
-        $api = $this->model->find($apiId);
+        $api = $this->model->whereHas('group.project', fn($query) => $query->where('user_id', Auth::id()))->findOrFail($apiId);
         Docs::where('api_id',$api->id)->delete();
         $api->delete();
-        session(['message' => 'Api deleted successfully.']);
+        session()->flash('message', 'API deleted successfully.');
         return back();
     }
 }

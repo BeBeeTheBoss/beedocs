@@ -7,6 +7,8 @@ use App\Models\ErrorResponse;
 use Error;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Api;
 
 class DocsController extends Controller
 {
@@ -17,12 +19,14 @@ class DocsController extends Controller
     }
 
     public function createPage($apiId){
+        Api::whereHas('group.project', fn($query) => $query->where('user_id', Auth::id()))->findOrFail($apiId);
         return Inertia::render('Docs/Create',[
             'apiId' => $apiId
         ]);
     }
 
     public function store(Request $request){
+        Api::whereHas('group.project', fn($query) => $query->where('user_id', Auth::id()))->findOrFail($request->api_id);
 
         $request->validate([
             'api_id' => 'required',
@@ -44,19 +48,19 @@ class DocsController extends Controller
             ]);
         }
 
-        session(['message' => 'Document created successfully.']);
+        session()->flash('message', 'Document created successfully.');
         return redirect()->route('home');
     }
 
     public function edit($docId){
-        $doc = $this->model->where('id',$docId)->with('error_responses')->first();
+        $doc = $this->model->whereHas('api.group.project', fn($query) => $query->where('user_id', Auth::id()))->where('id',$docId)->with('error_responses')->firstOrFail();
         return Inertia::render('Docs/Edit',[
             'doc' => $doc
         ]);
     }
 
     public function update(Request $request){
-        $doc = $this->model->find($request->id);
+        $doc = $this->model->whereHas('api.group.project', fn($query) => $query->where('user_id', Auth::id()))->findOrFail($request->id);
         $input = $request->all();
 
         $doc->update([
@@ -78,7 +82,7 @@ class DocsController extends Controller
             ]);
         }
 
-        session(['message' => 'Document updated successfully.']);
+        session()->flash('message', 'Document updated successfully.');
         return redirect()->route('home');
     }
 

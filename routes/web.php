@@ -34,6 +34,9 @@ Route::redirect('/', '/home');
 Route::middleware(['auth.check'])->group(function(){
     Route::controller(HomePageController::class)->group(function(){
         Route::get('/home','homePage')->name('home');
+        Route::get('/projects/{project}/view','projectPage')->name('projects.view');
+        Route::get('/projects/{project}/apis/{api}','projectPage')->name('projects.api.view');
+        Route::get('/projects/{project}/apis/{api}/data','apiData')->name('projects.api.data');
     });
 
     Route::post('/logout',function(){
@@ -47,6 +50,9 @@ Route::middleware(['auth.check'])->group(function(){
         Route::post('/update','update')->name('update');
         Route::delete('/{id}','destroy')->name('delete');
         Route::post('/set-active/{id}','setActive')->name('set-active');
+        Route::post('/{id}/viewers','addViewer')->name('viewers.add');
+        Route::put('/{id}/viewers/{userId}','updateViewer')->name('viewers.update');
+        Route::delete('/{id}/viewers/{userId}','removeViewer')->name('viewers.remove');
     });
 
     Route::group(['prefix' => '/groups','controller' => GroupController::class, 'as' => 'groups.'],function(){
