@@ -17,7 +17,9 @@ return [
     |
     */
 
-    'default' => env('LOG_CHANNEL', 'stderr'),
+    // Vercel deploys the application under /var/task, which is read-only.
+    // Always stream serverless logs to the platform instead of creating files.
+    'default' => env('VERCEL') ? 'stderr' : env('LOG_CHANNEL', 'stderr'),
 
     /*
     |--------------------------------------------------------------------------
@@ -65,7 +67,21 @@ return [
             'with' => [
                 'stream' => 'php://stderr',
             ],
-        ]
+        ],
+
+        // Keep old Vercel environment values from falling back to Laravel's
+        // emergency file logger when LOG_CHANNEL is still set to single/daily.
+        'single' => [
+            'driver' => 'stack',
+            'channels' => ['stderr'],
+            'ignore_exceptions' => false,
+        ],
+
+        'daily' => [
+            'driver' => 'stack',
+            'channels' => ['stderr'],
+            'ignore_exceptions' => false,
+        ],
 
     ],
 
