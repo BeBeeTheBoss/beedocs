@@ -24,6 +24,7 @@ $serverlessEnvironment = [
     'LOG_CHANNEL' => 'stderr',
     'CACHE_DRIVER' => 'array',
     'SESSION_DRIVER' => 'cookie',
+    'SESSION_LIFETIME' => '120',
     'VIEW_COMPILED_PATH' => $storagePath.'/framework/views',
     'SESSION_FILES_PATH' => $storagePath.'/framework/sessions',
     'APP_CONFIG_CACHE' => $bootstrapCachePath.'/config.php',
