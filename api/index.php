@@ -3,7 +3,9 @@
 // This is the serverless entry point. Vercel's application directory is
 // read-only, so Laravel's complete storage tree (including its emergency
 // logger) must be redirected before the framework is bootstrapped.
-$storagePath = rtrim(sys_get_temp_dir(), '/').'/beedocs-storage';
+$temporaryPath = rtrim(sys_get_temp_dir(), '/').'/beedocs';
+$storagePath = $temporaryPath.'/storage';
+$bootstrapCachePath = $temporaryPath.'/bootstrap-cache';
 
 foreach (['logs', 'framework/cache/data', 'framework/sessions', 'framework/views'] as $directory) {
     $path = $storagePath.'/'.$directory;
@@ -13,11 +15,20 @@ foreach (['logs', 'framework/cache/data', 'framework/sessions', 'framework/views
     }
 }
 
+if (! is_dir($bootstrapCachePath)) {
+    mkdir($bootstrapCachePath, 0775, true);
+}
+
 $serverlessEnvironment = [
     'LARAVEL_STORAGE_PATH' => $storagePath,
     'LOG_CHANNEL' => 'stderr',
     'VIEW_COMPILED_PATH' => $storagePath.'/framework/views',
     'SESSION_FILES_PATH' => $storagePath.'/framework/sessions',
+    'APP_CONFIG_CACHE' => $bootstrapCachePath.'/config.php',
+    'APP_EVENTS_CACHE' => $bootstrapCachePath.'/events.php',
+    'APP_PACKAGES_CACHE' => $bootstrapCachePath.'/packages.php',
+    'APP_ROUTES_CACHE' => $bootstrapCachePath.'/routes-v7.php',
+    'APP_SERVICES_CACHE' => $bootstrapCachePath.'/services.php',
 ];
 
 foreach ($serverlessEnvironment as $key => $value) {
