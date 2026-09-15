@@ -4,7 +4,7 @@
 
         <div class="col-10 d-flex justify-content-center align-items-center">
             <form class="form" @submit.prevent="submit">
-                <Link href="/home" class="back-button"><span aria-hidden="true">←</span> Back</Link>
+                <Link :href="`/projects/${props.projectId}/apis/${props.apiId}`" class="back-button"><span aria-hidden="true">←</span> Back</Link>
                 <div class="docs-form-header">
                     <p class="title mb-0">Create new Api docs</p>
                 </div>
@@ -39,22 +39,22 @@
                 <JsonEditor v-model="form.response" label="Response body" placeholder='' />
                 <div v-for="error,index in errors" :key="error" class="d-flex">
                     <label class="col-3 pe-2">
-                        <input v-model="error.status_code" class="input" placeholder="" required="">
+                        <input v-model="error.status_code" class="input">
                         <span>Status Code</span>
                 </label>
                 <label class="col-8">
-                    <input v-model="error.message" class="input" placeholder="" required="">
+                    <input v-model="error.message" class="input">
                     <span>Message</span>
                 </label>
                 <CloseButton @click="removeError(index)"/>
                 </div>
                 <div class="d-flex">
                     <label class="col-3 pe-2">
-                        <input v-model="status_code" class="input" placeholder="">
+                        <input v-model="status_code" class="input">
                         <span>Status Code</span>
                 </label>
                 <label class="col-7">
-                    <input v-model="message" class="input" placeholder="">
+                    <input v-model="message" class="input">
                     <span>Message</span>
                 </label>
                 <AddButton @click="addError" class="col-2 ms-1"/>
@@ -79,7 +79,8 @@ import {ref} from 'vue';
 
 const toast = useToast();
 const props = defineProps({
-    apiId : Number
+    apiId : Number,
+    projectId: Number
 })
 
 const status_code = ref(null);

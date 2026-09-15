@@ -48,6 +48,9 @@
             @click="$emit('selected', api); selectedApi(api.id)"
           >
             <span class="api-name">{{ api.name }}</span>
+            <button v-if="!readonly" class="edit-api" @click.stop="openEditApiDialog(api)" aria-label="Edit API">
+              <font-awesome-icon icon="fa-solid fa-pen-to-square" />
+            </button>
             <button v-if="!readonly" class="delete-api" @click.stop="askDelete('api', api)" aria-label="Delete API">
               <font-awesome-icon icon="fa-solid fa-trash-can" />
             </button>
@@ -68,7 +71,7 @@
 
     <v-dialog v-model="dialog" width="auto">
       <v-card width="500" title="Create new group" class="px-5" @keydown.enter.prevent="createGroup">
-        <v-text-field v-model="form.name" label="Group name" variant="outlined"></v-text-field>
+        <v-text-field v-model="form.name" label="Group name" variant="outlined" autofocus></v-text-field>
         <template #actions>
           <v-btn text="Cancel" @click="dialog = false"></v-btn>
           <v-btn text="Create group" @click="createGroup"></v-btn>
@@ -78,10 +81,20 @@
 
     <v-dialog v-model="apiDialog" width="auto">
       <v-card width="500" title="Create new API" class="px-5" @keydown.enter.prevent="createApi">
-        <v-text-field v-model="apiForm.name" label="API name" variant="outlined"></v-text-field>
+        <v-text-field v-model="apiForm.name" label="API name" variant="outlined" autofocus></v-text-field>
         <template #actions>
           <v-btn text="Cancel" @click="apiDialog = false"></v-btn>
           <v-btn text="Create API" @click="createApi"></v-btn>
+        </template>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="editApiDialog" width="auto">
+      <v-card width="500" title="Edit endpoint" class="px-5" @keydown.enter.prevent="updateApi">
+        <v-text-field v-model="editApiForm.name" label="Endpoint name" variant="outlined" :error-messages="editApiForm.errors.name"></v-text-field>
+        <template #actions>
+          <v-btn text="Cancel" @click="editApiDialog = false"></v-btn>
+          <v-btn text="Save changes" :loading="editApiForm.processing" @click="updateApi"></v-btn>
         </template>
       </v-card>
     </v-dialog>
@@ -116,6 +129,7 @@ const toast = useToast()
 const page = usePage()
 const dialog = ref(false)
 const apiDialog = ref(false)
+const editApiDialog = ref(false)
 const confirmDialog = ref(false)
 const deleteTarget = ref({ type: '', id: null, name: '' })
 const isOpen = ref([])
@@ -124,6 +138,8 @@ const openGroupsKey = computed(() => `beedocs:project:${props.project_id}:open-g
 const apiCount = computed(() => props.groups.reduce((total, group) => total + (group.apis?.length || 0), 0))
 const form = useForm({ project_id: props.project_id, name: '' })
 const apiForm = useForm({ group_id: '', name: '' })
+const editApiForm = useForm({ name: '' })
+const editingApiId = ref(null)
 
 const showFlash = () => {
   if (page.props.flash.message) {
@@ -172,6 +188,19 @@ const createApi = () => {
   if (!apiForm.name.trim()) return toast.warning('API name is required')
   apiForm.post('/apis', { onSuccess: () => { apiDialog.value = false; apiForm.reset('name') } })
 }
+const openEditApiDialog = api => {
+  editingApiId.value = api.id
+  editApiForm.name = api.name
+  editApiForm.clearErrors()
+  editApiDialog.value = true
+}
+const updateApi = () => {
+  if (!editApiForm.name.trim()) return toast.warning('Endpoint name is required')
+  editApiForm.put('/apis/' + editingApiId.value, {
+    preserveScroll: true,
+    onSuccess: () => { editApiDialog.value = false }
+  })
+}
 const askDelete = (type, item) => {
   deleteTarget.value = { type, id: item.id, name: item.name }
   confirmDialog.value = true
@@ -192,7 +221,7 @@ const confirmDelete = () => {
 .group-list{display:flex;flex-direction:column;gap:8px}.group-card{overflow:visible;border:1px solid rgba(215,188,255,.09);border-radius:13px;background:rgba(255,255,255,.035)}.group-card:hover{border-color:rgba(196,181,253,.2);background:rgba(255,255,255,.05)}
 .group-row{display:flex;align-items:center;padding:5px}.group-toggle{display:flex;min-width:0;flex:1;align-items:center;gap:10px;padding:9px;border:0;background:transparent;color:#eee7f5;text-align:left}.chevron{color:#aa95ba;font-size:11px;transform:rotate(-90deg);transition:transform .2s}.chevron.open{transform:rotate(0)}.group-name{overflow:hidden;flex:1;font-size:13px;font-weight:750;text-overflow:ellipsis;white-space:nowrap}.count{display:grid;place-items:center;min-width:22px;height:20px;padding:0 6px;border-radius:7px;background:rgba(139,92,246,.25);color:#e9d5ff;font-size:10px;font-weight:800}
 .more-button{display:grid;place-items:center;width:30px;height:30px;border:0;border-radius:8px;background:transparent;color:#a996b7}.more-button:hover{background:rgba(255,255,255,.06);color:#fff}.action-menu{width:190px;padding:7px!important;background:linear-gradient(145deg,#241132,#16091f)!important;border:1px solid rgba(215,188,255,.16)!important;border-radius:12px!important;box-shadow:0 18px 45px rgba(3,0,8,.55)!important}.menu-action{display:flex;width:100%;align-items:center;gap:10px;padding:10px 11px;border:0;border-radius:8px;background:transparent!important;color:#e3d8e9!important;font-size:12px;font-weight:700;text-align:left}.menu-action svg{color:#bda5ce}.menu-action:hover{background:rgba(167,139,250,.14)!important;color:#fff!important}.menu-action.danger{color:#d9cadf!important}.menu-action.danger:hover{background:rgba(251,113,133,.12)!important;color:#fb7185!important}.menu-action.danger:hover svg{color:#fb7185}
-.api-list{padding:0 7px 8px 7px}.api-row{position:relative;display:flex;width:100%;align-items:center;gap:9px;margin-top:2px;padding:10px 10px 10px 14px;border:0;border-radius:9px;background:transparent;color:#c2b6cb;text-align:left}.api-row::before{position:absolute;top:8px;bottom:8px;left:0;width:3px;border-radius:0 4px 4px 0;background:transparent;content:""}.api-row:hover{background:rgba(255,255,255,.06);color:#fff}.api-row.active{background:linear-gradient(90deg,rgba(139,92,246,.3),rgba(139,92,246,.12));color:#fff;box-shadow:inset 0 0 0 1px rgba(196,181,253,.09)}.api-row.active::before{background:#c4b5fd;box-shadow:0 0 12px rgba(167,139,250,.65)}.api-name{overflow:hidden;flex:1;font-size:12px;font-weight:700;text-overflow:ellipsis;white-space:nowrap}.delete-api{visibility:hidden;padding:4px;border:0;background:transparent;color:#a996b7;font-size:10px;opacity:0}.api-row:hover .delete-api{visibility:visible;opacity:1}.delete-api:hover{color:#fb7185}
+.api-list{padding:0 7px 8px 7px}.api-row{position:relative;display:flex;width:100%;align-items:center;gap:5px;margin-top:2px;padding:10px 8px 10px 14px;border:0;border-radius:9px;background:transparent;color:#c2b6cb;text-align:left}.api-row::before{position:absolute;top:8px;bottom:8px;left:0;width:3px;border-radius:0 4px 4px 0;background:transparent;content:""}.api-row:hover{background:rgba(255,255,255,.06);color:#fff}.api-row.active{background:linear-gradient(90deg,rgba(139,92,246,.3),rgba(139,92,246,.12));color:#fff;box-shadow:inset 0 0 0 1px rgba(196,181,253,.09)}.api-row.active::before{background:#c4b5fd;box-shadow:0 0 12px rgba(167,139,250,.65)}.api-name{overflow:hidden;flex:1;font-size:12px;font-weight:700;text-overflow:ellipsis;white-space:nowrap}.edit-api,.delete-api{visibility:hidden;display:grid;width:25px;height:25px;place-items:center;padding:0;border:0;border-radius:7px;background:transparent;color:#a996b7;font-size:9px;opacity:0}.api-row:hover .edit-api,.api-row:hover .delete-api{visibility:visible;opacity:1}.edit-api:hover{background:rgba(167,139,250,.12);color:#d8b4fe}.delete-api:hover{background:rgba(251,113,133,.1);color:#fb7185}
 .empty-group{width:100%;padding:9px 8px 9px 18px;border:0;background:transparent;color:#766b80;font-size:11px;text-align:left}.empty-group:hover{color:#c4b5fd}
 .empty-sidebar{display:flex;flex-direction:column;align-items:center;padding:44px 18px;text-align:center}.empty-mark{display:grid;place-items:center;width:44px;height:44px;margin-bottom:14px;border:1px solid rgba(167,139,250,.25);border-radius:13px;background:rgba(167,139,250,.1);color:#c4b5fd}.empty-sidebar strong{font-size:13px}.empty-sidebar span{margin:6px 0 16px;color:var(--muted);font-size:11px;line-height:1.6}.empty-sidebar button{padding:8px 12px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.04);color:#fff;font-size:11px;font-weight:700}
 .confirm-card{padding-top:30px!important;text-align:center}.danger-icon{display:grid;place-items:center;width:54px;height:54px;margin:0 auto 17px;border:1px solid rgba(251,113,133,.25);border-radius:16px;background:rgba(251,113,133,.1);color:#fb7185;font-size:18px}.confirm-card h3{margin:0;color:#fff;font-size:20px;font-weight:800;letter-spacing:-.025em}.confirm-card p{margin:10px auto 8px;max-width:340px;color:#b9aebf;font-size:12px;line-height:1.7}.confirm-card p strong{color:#f4eafa}.confirm-card :deep(.v-card-actions){justify-content:center!important}.confirm-card :deep(.confirm-delete){background:linear-gradient(135deg,#e11d48,#be123c)!important;color:#fff!important;box-shadow:0 8px 22px rgba(225,29,72,.22)!important}

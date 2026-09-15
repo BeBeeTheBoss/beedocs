@@ -34,4 +34,12 @@ class ApiController extends Controller
         session()->flash('message', 'API deleted successfully.');
         return back();
     }
+
+    public function update(Request $request, $apiId){
+        $api = $this->model->whereHas('group.project', fn($query) => $query->where('user_id', Auth::id()))->findOrFail($apiId);
+        $request->validate(['name' => 'required|string|max:255']);
+        $api->update(['name' => $request->name]);
+        session()->flash('message', 'Endpoint updated successfully.');
+        return back();
+    }
 }

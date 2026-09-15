@@ -19,14 +19,17 @@ class DocsController extends Controller
     }
 
     public function createPage($apiId){
-        Api::whereHas('group.project', fn($query) => $query->where('user_id', Auth::id()))->findOrFail($apiId);
+        $api = Api::whereHas('group.project', fn($query) => $query->where('user_id', Auth::id()))
+            ->with('group')->findOrFail($apiId);
         return Inertia::render('Docs/Create',[
-            'apiId' => $apiId
+            'apiId' => $apiId,
+            'projectId' => $api->group->project_id,
         ]);
     }
 
     public function store(Request $request){
-        Api::whereHas('group.project', fn($query) => $query->where('user_id', Auth::id()))->findOrFail($request->api_id);
+        $api = Api::whereHas('group.project', fn($query) => $query->where('user_id', Auth::id()))
+            ->with('group')->findOrFail($request->api_id);
 
         $request->validate([
             'api_id' => 'required',
@@ -49,13 +52,18 @@ class DocsController extends Controller
         }
 
         session()->flash('message', 'Document created successfully.');
-        return redirect()->route('home');
+        return redirect()->route('projects.api.view', [
+            'project' => $api->group->project_id,
+            'api' => $api->id,
+        ]);
     }
 
     public function edit($docId){
-        $doc = $this->model->whereHas('api.group.project', fn($query) => $query->where('user_id', Auth::id()))->where('id',$docId)->with('error_responses')->firstOrFail();
+        $doc = $this->model->whereHas('api.group.project', fn($query) => $query->where('user_id', Auth::id()))
+            ->where('id',$docId)->with(['error_responses', 'api.group'])->firstOrFail();
         return Inertia::render('Docs/Edit',[
-            'doc' => $doc
+            'doc' => $doc,
+            'projectId' => $doc->api->group->project_id,
         ]);
     }
 
@@ -83,7 +91,11 @@ class DocsController extends Controller
         }
 
         session()->flash('message', 'Document updated successfully.');
-        return redirect()->route('home');
+        $api = $doc->api()->with('group')->firstOrFail();
+        return redirect()->route('projects.api.view', [
+            'project' => $api->group->project_id,
+            'api' => $api->id,
+        ]);
     }
 
 }

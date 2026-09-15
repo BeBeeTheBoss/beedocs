@@ -7,9 +7,11 @@
                 BeeDocs
             </a>
             <div class="text-white d-flex align-items-center" style="cursor:pointer">
-                <button @click="dialog = true" class="btn bg-black text-white me-3">
-                    Create project
-                    <FontAwesomeIcon class="ms-1" icon="fa-solid fa-plus" />
+                <button @click="dialog = true" class="create-project-trigger me-3" type="button">
+                    <span>Create project</span>
+                    <span class="create-project-icon" aria-hidden="true">
+                        <FontAwesomeIcon icon="fa-solid fa-plus" />
+                    </span>
                 </button>
                 <template>
                     <div class="text-center pa-4">
@@ -288,6 +290,8 @@ onUpdated(() => {
 </script>
 
 <style scoped>
+.create-project-trigger{position:relative;display:inline-flex;height:42px;align-items:center;gap:11px;padding:0 8px 0 16px;overflow:hidden;border:1px solid rgba(196,181,253,.28);border-radius:12px;background:linear-gradient(135deg,rgba(126,34,206,.92),rgba(109,40,217,.92));box-shadow:0 10px 28px rgba(109,40,217,.25),inset 0 1px 0 rgba(255,255,255,.14);color:#fff;font-size:13px;font-weight:750;letter-spacing:-.01em;transition:border-color .2s,box-shadow .2s,transform .2s}
+.create-project-trigger::before{position:absolute;top:-30px;left:-25px;width:80px;height:70px;border-radius:50%;background:rgba(255,255,255,.12);filter:blur(18px);content:"";pointer-events:none}.create-project-trigger span{position:relative}.create-project-icon{display:grid;width:28px;height:28px;place-items:center;border:1px solid rgba(255,255,255,.16);border-radius:8px;background:rgba(255,255,255,.12);font-size:10px}.create-project-trigger:hover{border-color:rgba(216,180,254,.55);box-shadow:0 14px 34px rgba(109,40,217,.38),0 0 0 3px rgba(167,139,250,.08);transform:translateY(-1px)}.create-project-trigger:active{transform:translateY(0)}.create-project-trigger:focus-visible{outline:2px solid #c4b5fd;outline-offset:3px}
 .profile-trigger{display:grid;place-items:center;width:42px;height:42px;padding:0;border:2px solid #a78bfa;border-radius:13px;background:linear-gradient(145deg,#c4b5fd,#7c3aed);color:white;font-weight:800;box-shadow:0 8px 24px rgba(124,58,237,.3)}
 .profile-trigger:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(124,58,237,.42)}
 .profile-menu{width:280px;margin-top:12px!important;padding:10px!important;background:#1b0d29!important;border:1px solid rgba(215,188,255,.14)!important;border-radius:16px!important;box-shadow:0 24px 70px rgba(4,0,10,.48)!important}

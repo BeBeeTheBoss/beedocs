@@ -63,6 +63,7 @@ Route::middleware(['auth.check'])->group(function(){
 
     Route::group(['prefix' => '/apis','controller' => ApiController::class, 'as' => 'apis.'],function(){
         Route::post('/','store')->name('create');
+        Route::put('/{apiId}','update')->name('update');
         Route::delete('/{apiId}','destroy')->name('delete');
     });
 

@@ -4,7 +4,7 @@
 
         <div class="col-10 d-flex justify-content-center align-items-center">
             <form class="form" @submit.prevent="submit">
-                <Link href="/home" class="back-button"><span aria-hidden="true">←</span> Back</Link>
+                <Link :href="`/projects/${props.projectId}/apis/${props.doc.api_id}`" class="back-button"><span aria-hidden="true">←</span> Back</Link>
                 <div class="docs-form-header">
                     <p class="title mb-0">Edit Api docs</p>
                 </div>
@@ -80,7 +80,8 @@ import { ref } from 'vue';
 
 const toast = useToast();
 const props = defineProps({
-    doc: Object
+    doc: Object,
+    projectId: Number
 })
 
 const status_code = ref(null);
