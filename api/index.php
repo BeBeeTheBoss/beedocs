@@ -23,6 +23,7 @@ $serverlessEnvironment = [
     'LARAVEL_STORAGE_PATH' => $storagePath,
     'LOG_CHANNEL' => 'stderr',
     'CACHE_DRIVER' => 'array',
+    'SESSION_DRIVER' => 'cookie',
     'VIEW_COMPILED_PATH' => $storagePath.'/framework/views',
     'SESSION_FILES_PATH' => $storagePath.'/framework/sessions',
     'APP_CONFIG_CACHE' => $bootstrapCachePath.'/config.php',
