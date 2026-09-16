@@ -3,7 +3,7 @@
     <header class="detail-header">
       <div>
         <span class="eyebrow">Endpoint documentation</span>
-        <h1>{{ api.description }}</h1>
+        <h1>API details</h1>
         <p>Review the endpoint configuration, payload examples and possible error responses.</p>
       </div>
       <div class="detail-actions">
@@ -23,6 +23,11 @@
         <span class="status-dot"></span>
         <span>Endpoint configured</span>
       </div>
+    </section>
+
+    <section v-if="api.description" class="description-card" aria-labelledby="endpoint-description-title">
+      <h2 id="endpoint-description-title">Description</h2>
+      <p>{{ api.description }}</p>
     </section>
 
     <section class="docs-section">
@@ -105,6 +110,7 @@ const copyShareUrl = async () => {
 </script>
 
 <style scoped>
+.detail-header>div:first-child{min-width:0;flex:1}.description-card{margin-top:24px;padding:20px;border:1px solid rgba(215,188,255,.13);border-radius:14px;background:rgba(167,139,250,.035)}.description-card h2{margin:0 0 10px;color:#c4b5fd;font-size:13px;font-weight:700}.description-card p{margin:0;color:#d5cadc;font-size:14px;font-weight:400;line-height:1.85;white-space:pre-wrap;overflow-wrap:anywhere}
 .docs-detail{width:min(920px,calc(100% - 48px));margin:0 auto;padding:52px 0 90px;color:#f8f4fb}.detail-header{display:flex;align-items:flex-start;justify-content:space-between;gap:28px;margin-bottom:28px}.eyebrow{display:block;margin-bottom:9px;color:#b794f4;font-size:10px;font-weight:800;letter-spacing:.17em;text-transform:uppercase}.detail-header h1{max-width:650px;margin:0;color:#fff;font-size:clamp(25px,3vw,36px);font-weight:800;letter-spacing:-.045em;line-height:1.25}.detail-header p{max-width:600px;margin:10px 0 0;color:#a99caf;font-size:13px;line-height:1.7}.detail-actions{display:flex;flex:0 0 auto;align-items:center;gap:8px}.share-button,.edit-button{display:inline-flex;height:42px;align-items:center;justify-content:center;gap:9px;padding:0 15px;border-radius:11px;color:#fff;font-size:12px;font-weight:750;text-decoration:none}.share-button{border:1px solid rgba(196,181,253,.2);background:rgba(167,139,250,.08);color:#ddd0e7}.share-button:hover{border-color:rgba(196,181,253,.42);background:rgba(167,139,250,.16);color:#fff}.edit-button{border:1px solid rgba(196,181,253,.25);background:linear-gradient(135deg,#a78bfa,#7c3aed);box-shadow:0 12px 30px rgba(124,58,237,.25)}.edit-button:hover{color:#fff;transform:translateY(-2px)}
 .endpoint-card{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 20px;border:1px solid rgba(215,188,255,.14);border-radius:14px;background:linear-gradient(145deg,rgba(34,14,48,.72),rgba(12,7,19,.7));box-shadow:0 15px 38px rgba(3,0,8,.2)}.endpoint-main{display:flex;min-width:0;align-items:center;gap:12px}.endpoint-main code{overflow:hidden;color:#e8dff0;font:500 13px "Fira Code",monospace;text-overflow:ellipsis;white-space:nowrap}.method-badge{padding:6px 9px;border-radius:8px;font:800 10px monospace;letter-spacing:.05em}.method-get{background:rgba(52,211,153,.15);color:#6ee7b7}.method-post{background:rgba(251,191,36,.14);color:#fcd34d}.method-put{background:rgba(96,165,250,.15);color:#93c5fd}.method-delete{background:rgba(251,113,133,.14);color:#fb7185}.endpoint-meta{display:flex;align-items:center;gap:8px;color:#8f8298;font-size:10px;white-space:nowrap}.status-dot{width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 0 4px rgba(52,211,153,.1)}
 .docs-section{margin-top:40px}.section-title{display:flex;align-items:end;justify-content:space-between;margin-bottom:14px}.section-title>div{display:flex;align-items:center;gap:10px}.section-title h2{margin:0;color:#fff;font-size:17px;font-weight:800;letter-spacing:-.02em}.section-number{color:#826a94;font:700 10px monospace}.section-note{color:#827588;font-size:10px}
